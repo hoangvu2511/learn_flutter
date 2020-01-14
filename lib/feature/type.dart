@@ -1,0 +1,4 @@
+enum TypeAorM{
+  ANIME,
+  MANGA
+}
