@@ -1,8 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/feature/feed.dart';
 import 'package:flutter_app/util.dart';
-import 'package:flutter_app/widget/loading.dart';
+import 'package:flutter_app/widget/image.dart';
 
 class FeedItem extends StatelessWidget {
   final Feed item;
@@ -25,18 +24,7 @@ class FeedItem extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                CachedNetworkImage(
-                  imageUrl: item.attributes.posterImage.large,
-                  placeholder: (context, url) =>
-                      Container(
-                        height: 200,
-                        width: 200,
-                        child: CustomLoading(),
-                      ),
-                  errorWidget: (context, url, error) => new Icon(Icons.error),
-                  width: 200.0,
-                  height: 200.0,
-                ),
+                ImageLoader(url: item.attributes.posterImage.medium,),
                 Flexible(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

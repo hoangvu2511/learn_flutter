@@ -3,9 +3,8 @@ import 'package:flutter_app/bloc/anime/anime_bloc.dart';
 import 'package:flutter_app/bloc/anime/anime_event.dart';
 import 'package:flutter_app/bloc/anime/anime_state.dart';
 import 'package:flutter_app/feature/type.dart';
-import 'package:flutter_app/model/feature/feed.dart';
-import 'package:flutter_app/widget/bottom_loader.dart';
-import 'package:flutter_app/widget/feed_item.dart';
+import 'package:flutter_app/widget/feed_view.dart';
+import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,6 +18,7 @@ class _MoreAnimeMangaState extends State<MoreAnimeManga> {
   final _scrollThreshHold = 200.0;
   AnimeBloc _animBloc = AnimeBloc(httpClient: http.Client());
   var curState;
+  var count = 1;
 
   @override
   void didChangeDependencies() {
@@ -54,39 +54,60 @@ class _MoreAnimeMangaState extends State<MoreAnimeManga> {
         title: Text("${(ModalRoute.of(context).settings.arguments as TypeAorM)?.toString()?.split(".")?.last}"),
         centerTitle: true,
       ),
-      body: BlocBuilder<AnimeBloc, ListState>(
-        bloc: _animBloc,
-        builder: (context, state) {
-          curState = state;
-          if (state is ListError) {
-            return Center(
-              child: Text("hello"),
-            );
-          }
-
-          if (state is ListLoaded || state is Loading) {
-            return Container(
-              child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                itemBuilder: (BuildContext context, int index) {
-                  return index >= state.feeds.length
-                      ? BottomLoader()
-                      : FeedItem(item: Feed.fromMap(state.feeds[index]) ,);
-                },
-                itemCount: state.hasReachedMax
-                    ? state.feeds.length
-                    : state.feeds.length + 1,
-                controller: _scrollController,
-              ),
-            );
-          }
-
-          return Center(
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation(Colors.deepPurpleAccent),
-            ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _scrollController.animateTo(
+            0.0,
+            curve: Curves.easeOut,
+            duration: const Duration(milliseconds: 500),
           );
         },
+        child: Icon(Icons.arrow_upward),
+      ),
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: <Widget>[
+                Spacer(),
+                GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        if (count == 1) {
+                          count = 2;
+                        } else {
+                          count = 1;
+                        }
+                      });
+                    },
+                    child: Icon(Icons.grid_on)
+                )
+              ],
+            ),
+          ),
+          BlocBuilder<AnimeBloc, ListState>(
+            bloc: _animBloc,
+            builder: (context, state) {
+              curState = state;
+              if (state is ListError) {
+                return Center(
+                  child: Text("hello"),
+                );
+              }
+
+              if (state is ListLoaded || state is Loading) {
+                return Expanded(
+                    child: count == 2
+                        ? GridViewFeed(feeds: state.feeds, scrollController: _scrollController,)
+                        : ListViewFeed(feeds: state.feeds, scrollController: _scrollController, hasReachedMax: state.hasReachedMax,)
+                );
+              }
+
+              return CustomLoading();
+            },
+          ),
+        ],
       ),
     );
   }
