@@ -1,8 +1,8 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/feature/feed.dart';
 import 'package:flutter_app/util.dart';
+import 'package:flutter_app/widget/loading.dart';
 
 class FeedItem extends StatelessWidget {
   final Feed item;
@@ -12,7 +12,7 @@ class FeedItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         gotoDetailScreen(item, context);
       },
       child: Card(
@@ -27,15 +27,12 @@ class FeedItem extends StatelessWidget {
               children: <Widget>[
                 CachedNetworkImage(
                   imageUrl: item.attributes.posterImage.large,
-                  placeholder: (context, url) => Container(
-                    height: 200,
-                    width: 200,
-                    child: Center(
-                      child: new CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation(Colors.deepPurpleAccent),
+                  placeholder: (context, url) =>
+                      Container(
+                        height: 200,
+                        width: 200,
+                        child: CustomLoading(),
                       ),
-                    ),
-                  ),
                   errorWidget: (context, url, error) => new Icon(Icons.error),
                   width: 200.0,
                   height: 200.0,
