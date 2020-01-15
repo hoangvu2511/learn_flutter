@@ -17,35 +17,33 @@ class FeedItem extends StatelessWidget {
       child: Card(
         clipBehavior: Clip.antiAlias,
         borderOnForeground: true,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            width: 400.0,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                ImageLoader(url: item.attributes.posterImage.medium,),
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "${item.attributes.canonicalTitle}",
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        softWrap: true,
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Icon(Icons.star),
-                          Text("${item.attributes.averageRating}"),
-                        ],
-                      ),
-                    ],
-                  ),
+        child: Container(
+          width: 400.0,
+          padding: EdgeInsets.all(8.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ImageLoader(url: item.attributes.posterImage.medium,),
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "${item.attributes.canonicalTitle}",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      softWrap: true,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Icon(Icons.star),
+                        Text("${item.attributes.averageRating}"),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
