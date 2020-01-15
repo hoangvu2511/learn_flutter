@@ -19,17 +19,14 @@ class AnimeBloc extends Bloc<AppEvent, ListState> {
   @override
   Stream<ListState> mapEventToState(AppEvent event) async* {
     final curState = state;
-    log("start call api");
     if (event is Fetch && !_hasReachedMax(curState)) {
       try {
         if (curState is ListUninitialized) {
           final feed = await _fetchFeed(20, 0);
-          log("finish call");
           yield ListLoaded(feeds: feed, hasReachedMax: false);
         }
         if (curState is ListLoaded) {
           final feeds = await _fetchFeed(20, curState.feeds.length + 20);
-          log("finish call");
           curState.feeds.addAll(feeds);
           yield feeds.isEmpty
               ? curState.copyWith(hasReachedMax: true)
@@ -51,7 +48,7 @@ class AnimeBloc extends Bloc<AppEvent, ListState> {
     var url = nextLink != null
         ? nextLink
         : "https://kitsu.io/api/edge/anime?page%5Blimit%5D=$_pageOffset&page%5Boffset%5D=$_startPage";
-
+    log("${DateTime.now()} call api $url");
     final response = await httpClient.get(url,);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
