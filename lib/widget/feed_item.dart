@@ -23,7 +23,7 @@ class FeedItem extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ImageLoader(url: item.attributes.posterImage.medium,),
+              ImageLoader(url: item?.attributes?.posterImage?.medium,),
               Flexible(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,7 +37,7 @@ class FeedItem extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         Icon(Icons.star),
-                        Text("${item.attributes.averageRating}"),
+                        Text("${item.attributes.averageRating ?? 'N/A'}"),
                       ],
                     ),
                   ],

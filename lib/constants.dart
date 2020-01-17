@@ -1,4 +1,9 @@
+const BASE_URL = 'kitsu.io';
 const KEY_SAVE = "KEY_SAVE";
 const USER_NAME = "Username";
 const PASS = "Password";
 const HINT_PASS = "Enter your password";
+const FILTER_SEASON = "filter[season]";
+const FILTER_SEASON_YEAR = "filter[seasonYear]";
+const FILTER_AGE_RATING = "filter[ageRating]";
+const PAGE_SIZE = 20;

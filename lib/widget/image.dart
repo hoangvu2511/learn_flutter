@@ -9,17 +9,23 @@ class ImageLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: url,
-      placeholder: (context, url) =>
-          Container(
-            height: 200,
-            width: 200,
-            child: CustomLoading(),
-          ),
-      errorWidget: (context, url, error) => new Icon(Icons.error),
-      width: 200.0,
-      height: 200.0,
+    return url != null
+        ? CachedNetworkImage(
+            imageUrl: url,
+            placeholder: (context, url) =>
+                Container(
+                  height: 200,
+                  width: 200,
+                  child: CustomLoading(),
+                ),
+            errorWidget: (context, url, error) => new Icon(Icons.error),
+            width: 200.0,
+            height: 200.0,
+          )
+        : Container(
+            width: 200.0,
+            height: 200.0,
+            child: Icon(Icons.error),
     );
   }
 }
