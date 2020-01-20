@@ -1,10 +1,12 @@
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/bloc/anime/anime_bloc.dart';
 import 'package:flutter_app/bloc/anime/anime_event.dart';
 import 'package:flutter_app/bloc/anime/anime_state.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/feature/type.dart';
+import 'package:flutter_app/util.dart';
 import 'package:flutter_app/widget/dropdownlist.dart';
 import 'package:flutter_app/widget/feed_view.dart';
 import 'package:flutter_app/widget/loading.dart';
@@ -76,19 +78,20 @@ class _MoreAnimeMangaState extends State<MoreAnimeManga> {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: <Widget>[
-                Expanded(
-                  child: DropDownItems(
-                    items: ['Winter', 'Spring', 'Summer', 'Fall'],
-                    typeDropDown: TypeDropDown.season,
-                    filter: handleFilter,
-                  ),
+                DropDownItems(
+                  items: ['Winter', 'Spring', 'Summer', 'Fall'],
+                  typeDropDown: TypeDropDown.season,
+                  filter: handleFilter,
                 ),
-                Expanded(
-                  child: DropDownItems(
-                    items: generateListYear(),
-                    typeDropDown: TypeDropDown.seasonYear,
-                    filter: handleFilter,
-                  ),
+                DropDownItems(
+                  items: generateListYear(),
+                  typeDropDown: TypeDropDown.seasonYear,
+                  filter: handleFilter,
+                ),
+                DropDownItems(
+                  items: ['G', 'PG', 'R', 'R18'],
+                  typeDropDown: TypeDropDown.ageRating,
+                  filter: handleFilter,
                 ),
                 Spacer(),
                 GestureDetector(
@@ -134,34 +137,11 @@ class _MoreAnimeMangaState extends State<MoreAnimeManga> {
   }
 
   void handleFilter(TypeDropDown typeDropDown, dynamic text) {
-    switch (typeDropDown) {
-      case TypeDropDown.season:
-        {
-          filterBody[FILTER_SEASON] = text.toString().toLowerCase();
-          break;
-        }
-      case TypeDropDown.seasonYear :
-        {
-          filterBody[FILTER_SEASON_YEAR] = text.toString();
-          break;
-        }
-      case TypeDropDown.ageRating :
-        {
-          filterBody[FILTER_AGE_RATING] = text.toString();
-          break;
-        }
+    if(text == null){
+      filterBody.remove(typeDropDown.filter);
+    }else{
+      filterBody[typeDropDown.filter] = text.toString().toLowerCase();
     }
-    log(filterBody.toString());
     _animBloc.add(NewCall(mapParam: filterBody));
-  }
-
-  generateListYear(){
-    var date = DateTime.now();
-    var listYear = <String>[];
-    for(var i = 1970; i <= date.year; i++){
-      listYear.add("$i");
-    }
-
-    return listYear.reversed.toList();
   }
 }

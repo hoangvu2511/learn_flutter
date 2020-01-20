@@ -21,7 +21,7 @@ class FeedItemPortrait extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
-              ImageLoader(url: item.attributes.posterImage.medium),
+              ImageLoader(url: item.attributes?.posterImage?.medium),
               Text(
                 "${item.attributes.canonicalTitle}",
                 overflow: TextOverflow.ellipsis,
@@ -32,7 +32,7 @@ class FeedItemPortrait extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Icon(Icons.star),
-                  Text("${item.attributes.averageRating}"),
+                  Text("${item.attributes.averageRating ?? 'N/A'}"),
                 ],
               )
             ],

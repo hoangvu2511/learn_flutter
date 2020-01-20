@@ -35,3 +35,13 @@ gotoMoreAnime(BuildContext context, TypeAorM type) {
           )
       ));
 }
+
+generateListYear(){
+  var date = DateTime.now();
+  var listYear = <String>[];
+  for(var i = 1970; i <= date.year; i++){
+    listYear.add("$i");
+  }
+
+  return listYear.reversed.toList();
+}
