@@ -19,11 +19,8 @@ class MoreAnimeManga extends StatefulWidget {
 }
 
 class _MoreAnimeMangaState extends State<MoreAnimeManga> {
-  final _scrollController = ScrollController();
-  final _scrollThreshHold = 200.0;
   AnimeBloc _animBloc = AnimeBloc(AnimeRepository(http.Client()));
-  var curState;
-  var count = 1;
+  var type = ListType.LIST;
   var filterBody = <String, String>{
     "page[limit]": "$PAGE_SIZE",
   };
@@ -31,22 +28,7 @@ class _MoreAnimeMangaState extends State<MoreAnimeManga> {
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
     _animBloc.add(NewCall(mapParam: filterBody));
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  _onScroll() {
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.position.pixels;
-    if (maxScroll - currentScroll < _scrollThreshHold && curState is! Loading) {
-      _animBloc.add(Fetch(mapParam: filterBody));
-    }
   }
 
   @override
@@ -59,11 +41,7 @@ class _MoreAnimeMangaState extends State<MoreAnimeManga> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _scrollController.animateTo(
-            0.0,
-            curve: Curves.easeOut,
-            duration: const Duration(milliseconds: 500),
-          );
+
         },
         child: Icon(Icons.arrow_upward),
       ),
@@ -92,11 +70,7 @@ class _MoreAnimeMangaState extends State<MoreAnimeManga> {
                 GestureDetector(
                     onTap: () {
                       setState(() {
-                        if (count == 1) {
-                          count = 2;
-                        } else {
-                          count = 1;
-                        }
+                        type = type.change;
                       });
                     },
                     child: Icon(Icons.grid_on)
@@ -107,28 +81,26 @@ class _MoreAnimeMangaState extends State<MoreAnimeManga> {
           BlocBuilder<AnimeBloc, ListState>(
             bloc: _animBloc,
             builder: (context, state) {
-              curState = state;
               if (state is ListError) {
                 return Center(
                   child: Text("hello"),
                 );
               }
-
               if (state is ListLoaded || state is Loading) {
-                log("${state.feeds.length}  ${state.hasReachedMax}");
                 return Expanded(
-                    child: count == 2
-                        ? GridViewFeed(feeds: state.feeds, scrollController: _scrollController,)
-                        : ListViewFeed(feeds: state.feeds, scrollController: _scrollController, hasReachedMax: state.hasReachedMax,)
+                    child: EndlessList(curState: state, onEndScroll: _onEndCall,type: type,)
                 );
               }
-
               return CustomLoading();
             },
           ),
         ],
       ),
     );
+  }
+
+  _onEndCall(){
+    _animBloc.add(Fetch());
   }
 
   void handleFilter(TypeDropDown typeDropDown, dynamic text) {

@@ -1,11 +1,11 @@
 import 'package:flutter_app/constants.dart';
 
-enum TypeAorM{
+enum TypeAorM {
   ANIME,
   MANGA
 }
 
-enum TypeDropDown{
+enum TypeDropDown {
   season,
   seasonYear,
   ageRating
@@ -26,4 +26,18 @@ extension TypeDropDownExt on TypeDropDown{
 
 enum ageRating{
   G,PG,R,R18
+}
+
+enum ListType {
+  GRID,
+  LIST
+}
+
+extension ListTypeExt on ListType{
+  static const oposite = {
+    ListType.GRID: ListType.LIST,
+    ListType.LIST: ListType.GRID
+  };
+
+  ListType get change => oposite[this];
 }

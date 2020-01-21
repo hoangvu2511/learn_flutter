@@ -1,9 +1,46 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_app/feature/list_more/bloc/state.dart';
+import 'package:flutter_app/feature/type.dart';
 import 'package:flutter_app/model/feature/list_anime_response.dart';
-import 'package:flutter_app/widget/feed_item_potrait.dart';
 
 import 'bottom_loader.dart';
 import 'feed_item.dart';
+import 'feed_item_potrait.dart';
+
+class EndlessList extends StatefulWidget {
+  final curState;
+  final VoidCallback onEndScroll;
+  final ListType type;
+
+  EndlessList({this.curState, this.onEndScroll, this.type = ListType.LIST});
+
+  @override
+  _EndlessListState createState() => _EndlessListState();
+}
+
+class _EndlessListState extends State<EndlessList> {
+  final ScrollController _scrollController = ScrollController();
+  final _scrollThreshHold = 200.0;
+
+  _EndlessListState() {
+    _scrollController.addListener(_onScroll);
+  }
+
+  _onScroll() {
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.position.pixels;
+    if (maxScroll - currentScroll < _scrollThreshHold && widget.curState is! Loading) {
+      widget.onEndScroll?.call();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.type == ListType.LIST
+        ? ListViewFeed(feeds: widget.curState.feeds, scrollController: _scrollController, hasReachedMax: widget.curState.hasReachedMax,)
+        : GridViewFeed(feeds: widget.curState.feeds, scrollController: _scrollController,);
+  }
+}
 
 class GridViewFeed extends StatelessWidget {
   final List feeds;
@@ -26,7 +63,6 @@ class GridViewFeed extends StatelessWidget {
     );
   }
 }
-
 
 class ListViewFeed extends StatelessWidget {
   final List feeds;
