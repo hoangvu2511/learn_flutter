@@ -4,9 +4,9 @@ import 'package:flutter_app/feature/feed_detail.dart';
 import 'package:flutter_app/feature/list_more/more_anime_manga.dart';
 
 import 'feature/type.dart';
-import 'model/feature/feed.dart';
+import 'model/feature/list_anime_response.dart';
 
-gotoDetailScreen(Feed item, BuildContext context) {
+gotoDetailScreen(ListAnimeResponse item, BuildContext context) {
   if (item.id != null) {
     Navigator.of(context).push(
       PageRouteBuilder(

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_app/model/feature/feed.dart';
+import 'package:flutter_app/model/feature/list_anime_response.dart';
 import 'package:flutter_app/widget/feed_item_potrait.dart';
 
 import 'bottom_loader.dart';
@@ -19,7 +19,7 @@ class GridViewFeed extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return index >= feeds.length
             ? BottomLoader()
-            : FeedItemPortrait(item: Feed.fromMap(feeds[index]),);
+            : FeedItemPortrait(item: ListAnimeResponse.fromMap(feeds[index]),);
       },
       itemCount: feeds.length,
       controller: scrollController,
@@ -41,7 +41,7 @@ class ListViewFeed extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return index >= feeds.length
             ? BottomLoader()
-            : FeedItem(item: Feed.fromMap(feeds[index]),);
+            : FeedItem(item: ListAnimeResponse.fromMap(feeds[index]),);
       },
       itemCount: hasReachedMax
           ? feeds.length

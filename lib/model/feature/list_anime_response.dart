@@ -1,17 +1,17 @@
 import 'dart:convert';
 
-import 'package:flutter_app/model/feature/attributes.dart';
+import 'package:flutter_app/model/feature/model_anime.dart';
 import 'package:flutter_app/model/feature/links.dart';
 import 'package:flutter_app/model/feature/relationships.dart';
 
 
-class Feed {
+class ListAnimeResponse {
   final String id;
   final String type;
   final Links links;
-  final Attributes attributes;
+  final AnimeModel attributes;
   final Relationships relationships;
-  Feed({
+  ListAnimeResponse({
     this.id,
     this.type,
     this.links,
@@ -19,14 +19,14 @@ class Feed {
     this.relationships,
   });
 
-  Feed copyWith({
+  ListAnimeResponse copyWith({
     String id,
     String type,
     Links links,
-    Attributes attributes,
+    AnimeModel attributes,
     Relationships relationships,
   }) {
-    return Feed(
+    return ListAnimeResponse(
       id: id ?? this.id,
       type: type ?? this.type,
       links: links ?? this.links,
@@ -45,21 +45,21 @@ class Feed {
     };
   }
 
-  static Feed fromMap(Map<String, dynamic> map) {
+  static ListAnimeResponse fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
   
-    return Feed(
+    return ListAnimeResponse(
       id: map['id'],
       type: map['type'],
       links: Links.fromMap(map['links']),
-      attributes: Attributes.fromMap(map['attributes']),
+      attributes: AnimeModel.fromMap(map['attributes']),
       relationships: Relationships.fromMap(map['relationships']),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  static Feed fromJson(String source) => fromMap(json.decode(source));
+  static ListAnimeResponse fromJson(String source) => fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -70,7 +70,7 @@ class Feed {
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
   
-    return o is Feed &&
+    return o is ListAnimeResponse &&
       o.id == id &&
       o.type == type &&
       o.links == links &&

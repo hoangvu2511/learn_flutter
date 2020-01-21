@@ -22,3 +22,8 @@ extension TypeDropDownExt on TypeDropDown{
   String get filter => filters[this];
 
 }
+
+
+enum ageRating{
+  G,PG,R,R18
+}

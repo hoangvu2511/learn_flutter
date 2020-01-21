@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/model/feature/feed.dart';
+import 'package:flutter_app/model/feature/list_anime_response.dart';
 import 'package:flutter_app/util.dart';
 import 'package:flutter_app/widget/image_loader.dart';
 
 class FeedItemPortrait extends StatelessWidget {
 
-  final Feed item;
+  final ListAnimeResponse item;
 
   FeedItemPortrait({this.item});
 

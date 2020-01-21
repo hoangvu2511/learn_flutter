@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/model/feature/feed.dart';
+import 'package:flutter_app/model/feature/list_anime_response.dart';
 import 'package:flutter_app/util.dart';
 import 'package:flutter_app/widget/image_loader.dart';
 
 class FeedItem extends StatelessWidget {
-  final Feed item;
+  final ListAnimeResponse item;
 
   FeedItem({this.item});
 

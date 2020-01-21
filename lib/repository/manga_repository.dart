@@ -11,7 +11,7 @@ class MangaRepository extends BaseListRepository {
 
   @override
   Future<List> newCall(Map<String, String> mapParam) async {
-    var url = Uri.http(BASE_URL, '', mapParam);
+    var url = Uri.http(BASE_URL, '/api/edge/manga', mapParam);
     final response = await callApiGET(url);
 
     if (response.statusCode == 200 || response.statusCode == 201) {

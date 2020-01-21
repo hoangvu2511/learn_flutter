@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/widget/feed_item.dart';
 import 'package:flutter_app/widget/feed_item_more.dart';
 import 'package:flutter_app/feature/type.dart';
-import 'package:flutter_app/model/feature/feed.dart';
+import 'package:flutter_app/model/feature/list_anime_response.dart';
 import 'package:flutter_app/util.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,14 +15,14 @@ class FeedPage extends StatefulWidget {
 }
 
 class _FeedPageState extends State<FeedPage> {
-  var items = List<Feed>();
+  var items = List<ListAnimeResponse>();
 
   @override
   void initState() {
     super.initState();
     getListAnime().then((value) {
       setState(() {
-        value.add(Feed());
+        value.add(ListAnimeResponse());
         items = value;
       });
     });
@@ -69,12 +69,12 @@ class _FeedPageState extends State<FeedPage> {
     );
   }
 
-  Future<List<Feed>> getListAnime() async {
+  Future<List<ListAnimeResponse>> getListAnime() async {
     var response = await http.get(
         "https://kitsu.io/api/edge/anime"
     );
     return (json.decode(response.body)["data"] as List)?.map((it) {
-      return Feed.fromJson(json.encode(it));
+      return ListAnimeResponse.fromJson(json.encode(it));
     })?.toList();
   }
 }

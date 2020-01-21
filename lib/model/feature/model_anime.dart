@@ -5,7 +5,7 @@ import 'titles.dart';
 import 'rating_frequencies.dart';
 import 'poster_image.dart';
 
-class Attributes {
+class AnimeModel {
   final String createdAt;
   final String updatedAt;
   final String slug;
@@ -34,7 +34,7 @@ class Attributes {
   final String youtubeVideoId;
   final String showType;
   final bool nsfw;
-  Attributes({
+  AnimeModel({
     this.createdAt,
     this.updatedAt,
     this.slug,
@@ -65,7 +65,7 @@ class Attributes {
     this.nsfw,
   });
 
-  Attributes copyWith({
+  AnimeModel copyWith({
     String createdAt,
     String updatedAt,
     String slug,
@@ -95,7 +95,7 @@ class Attributes {
     String showType,
     bool nsfw,
   }) {
-    return Attributes(
+    return AnimeModel(
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       slug: slug ?? this.slug,
@@ -160,10 +160,10 @@ class Attributes {
     };
   }
 
-  static Attributes fromMap(Map<String, dynamic> map) {
+  static AnimeModel fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
   
-    return Attributes(
+    return AnimeModel(
       createdAt: map['createdAt'],
       updatedAt: map['updatedAt'],
       slug: map['slug'],
@@ -197,7 +197,7 @@ class Attributes {
 
   String toJson() => json.encode(toMap());
 
-  static Attributes fromJson(String source) => fromMap(json.decode(source));
+  static AnimeModel fromJson(String source) => fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -208,7 +208,7 @@ class Attributes {
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
   
-    return o is Attributes &&
+    return o is AnimeModel &&
       o.createdAt == createdAt &&
       o.updatedAt == updatedAt &&
       o.slug == slug &&
