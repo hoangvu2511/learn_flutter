@@ -38,28 +38,40 @@ class _EndlessListState extends State<EndlessList> {
   Widget build(BuildContext context) {
     return widget.type == ListType.LIST
         ? ListViewFeed(feeds: widget.curState.feeds, scrollController: _scrollController, hasReachedMax: widget.curState.hasReachedMax,)
-        : GridViewFeed(feeds: widget.curState.feeds, scrollController: _scrollController,);
+        : GridViewFeed(feeds: widget.curState.feeds, scrollController: _scrollController, hasReachedMax: widget.curState.hasReachedMax,);
   }
 }
 
 class GridViewFeed extends StatelessWidget {
   final List feeds;
   final ScrollController scrollController;
-   
-  GridViewFeed({this.feeds, this.scrollController});
-  
+  final bool hasReachedMax;
+
+  GridViewFeed({this.feeds, this.scrollController, this.hasReachedMax});
+
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      shrinkWrap: true,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-      itemBuilder: (BuildContext context, int index) {
-        return index >= feeds.length
-            ? BottomLoader()
-            : FeedItemPortrait(item: ListAnimeResponse.fromMap(feeds[index]),);
-      },
-      itemCount: feeds.length,
+    return CustomScrollView(
       controller: scrollController,
+      slivers: <Widget>[
+        SliverGrid(
+          delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+            return index >= feeds.length
+                ? BottomLoader()
+                : FeedItemPortrait(item: ListAnimeResponse.fromMap(feeds[index]),);
+          },
+            childCount: feeds.length,
+
+          ),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+        ),
+        SliverToBoxAdapter(
+          child: Visibility(
+              visible: hasReachedMax == false,
+              child: BottomLoader()
+          ),
+        )
+      ],
     );
   }
 }
