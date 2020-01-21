@@ -1,17 +1,17 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_app/bloc/anime/anime_bloc.dart';
-import 'package:flutter_app/bloc/anime/anime_event.dart';
-import 'package:flutter_app/bloc/anime/anime_state.dart';
 import 'package:flutter_app/constants.dart';
 import 'package:flutter_app/feature/type.dart';
+import 'package:flutter_app/repository/anime_repository.dart';
 import 'package:flutter_app/util.dart';
 import 'package:flutter_app/widget/dropdownlist.dart';
 import 'package:flutter_app/widget/feed_view.dart';
 import 'package:flutter_app/widget/loading.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'bloc/bloc.dart';
+import 'bloc/event.dart';
+import 'bloc/state.dart';
 
 class MoreAnimeManga extends StatefulWidget {
   @override
@@ -21,17 +21,12 @@ class MoreAnimeManga extends StatefulWidget {
 class _MoreAnimeMangaState extends State<MoreAnimeManga> {
   final _scrollController = ScrollController();
   final _scrollThreshHold = 200.0;
-  AnimeBloc _animBloc = AnimeBloc(httpClient: http.Client());
+  AnimeBloc _animBloc = AnimeBloc(AnimeRepository(http.Client()));
   var curState;
   var count = 1;
   var filterBody = <String, String>{
     "page[limit]": "$PAGE_SIZE",
   };
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
 
   @override
   void initState() {

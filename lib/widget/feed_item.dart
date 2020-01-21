@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/feature/feed.dart';
 import 'package:flutter_app/util.dart';
-import 'package:flutter_app/widget/image.dart';
+import 'package:flutter_app/widget/image_loader.dart';
 
 class FeedItem extends StatelessWidget {
   final Feed item;

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/feature/feed_detail.dart';
-import 'package:flutter_app/feature/more_anime_manga.dart';
+import 'package:flutter_app/feature/list_more/more_anime_manga.dart';
 
 import 'feature/type.dart';
 import 'model/feature/feed.dart';
